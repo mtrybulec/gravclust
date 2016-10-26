@@ -1,0 +1,9 @@
+Package: gravClust
+Title: gravClust - gravitational data clustering
+Version: 0.0.1
+Date: 2016-10-26
+Author: Michal Trybulec
+Maintainer: Michal Trybulec <mtrybulec@yac.com.pl>
+Description: gravClust - gravitational data clustering
+License: MIT
+RoxygenNote: 5.0.1
