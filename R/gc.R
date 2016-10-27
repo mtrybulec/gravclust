@@ -25,10 +25,8 @@ gravClust <- function(x, max.steps = 100, ...) {
         v <- matrix(rep(0, nrow(x) * 2), ncol = 2)
 
         for (i in 1:nrow(x)) {
-            for (j in 1:nrow(x)) {
-                v[i, 1] <- v[i, 1] + (x[i, 1] - x[j, 1]) * a[i, j] * m[j]
-                v[i, 2] <- v[i, 2] + (x[i, 2] - x[j, 2]) * a[i, j] * m[j]
-            }
+            v[i, 1] <- sum((x[i, 1] - x[, 1]) * a[i, ] * m)
+            v[i, 2] <- sum((x[i, 2] - x[, 2]) * a[i, ] * m)
         }
 
         v <- v * m
