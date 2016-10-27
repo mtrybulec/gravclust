@@ -3,6 +3,7 @@ gravClust <- function(x, max.steps = 100, ...) {
     step <- 0
     m <- rep(1, nrow(x))
     names(m) <- 1:nrow(x)
+    mm <- outer(m, m, "*")
 
     x0 <- x
     plot(x, col = "black")
@@ -21,15 +22,12 @@ gravClust <- function(x, max.steps = 100, ...) {
 
         a <- 1 / (d^2)
         a[is.na(a)] <- 0
+        amm <- a * mm
 
-        v <- matrix(rep(0, nrow(x) * 2), ncol = 2)
+        v1 <- outer(x[, 1], x[, 1], "-") * amm
+        v2 <- outer(x[, 2], x[, 2], "-") * amm
 
-        for (i in 1:nrow(x)) {
-            v[i, 1] <- sum((x[i, 1] - x[, 1]) * a[i, ] * m)
-            v[i, 2] <- sum((x[i, 2] - x[, 2]) * a[i, ] * m)
-        }
-
-        v <- v * m
+        v <- cbind(rowSums(v1), rowSums(v2))
 
         maxV <- max(abs(v), na.rm = TRUE)
 
@@ -43,6 +41,7 @@ gravClust <- function(x, max.steps = 100, ...) {
             x <- x[-minIndexes[1], , drop = FALSE]
             m[minIndexes[2]] <- m[minIndexes[2]] + m[minIndexes[1]]
             m <- m[-minIndexes[1]]
+            mm <- outer(m, m, "*")
         } else {
             x <- x - v * shiftFactor
 
