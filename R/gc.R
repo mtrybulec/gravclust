@@ -20,24 +20,18 @@ gravClust <- function(x, max.steps = 100, ...) {
         minD <- min(d, na.rm = TRUE)
 
         a <- 1 / (d^2)
-        a[a == Inf] <- 0
+        a[is.na(a)] <- 0
 
-        v <- x
+        v <- matrix(rep(0, nrow(x) * 2), ncol = 2)
+
         for (i in 1:nrow(x)) {
-            v[i, 1] <- 0
             for (j in 1:nrow(x)) {
-                if (i != j) {
-                    v[i, 1] <- v[i, 1] + (x[i, 1] - x[j, 1]) * a[i, j] * m[i] * m[j]
-                }
-            }
-
-            v[i, 2] <- 0
-            for (j in 1:nrow(x)) {
-                if (i != j) {
-                    v[i, 2] <- v[i, 2] + (x[i, 2] - x[j, 2]) * a[i, j] * m[i] * m[j]
-                }
+                v[i, 1] <- v[i, 1] + (x[i, 1] - x[j, 1]) * a[i, j] * m[j]
+                v[i, 2] <- v[i, 2] + (x[i, 2] - x[j, 2]) * a[i, j] * m[j]
             }
         }
+
+        v <- v * m
 
         maxV <- max(abs(v), na.rm = TRUE)
 
